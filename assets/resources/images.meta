@@ -1,0 +1,23 @@
+{
+  "ver": "1.2.0",
+  "importer": "directory",
+  "imported": true,
+  "uuid": "30f9c01d-4635-4e63-a4ca-b0a62b936a9f",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "bundleFilterConfig": [
+      {
+        "range": "include",
+        "type": "url",
+        "patchOption": {
+          "patchType": "glob",
+          "value": "db://assets/images/**/*"
+        },
+        "assets": [
+          ""
+        ]
+      }
+    ]
+  }
+}
