@@ -9,8 +9,8 @@ export class Game extends Component {
     @property({ type: Node })
     backgroud_2: Node;
 
-    viewHeight: number = view.getVisibleSize().height;
-    viewWidth: number = view.getVisibleSize().width;
+    private viewHeight: number;
+    private viewWidth: number;
 
     moveSpeed: number = 100;
 
@@ -21,6 +21,7 @@ export class Game extends Component {
     init() {
         this.viewHeight = view.getVisibleSize().height;
         this.viewWidth = view.getVisibleSize().width;
+
         this.backgroud_2.getComponent(UITransform).setContentSize(new Size(this.viewWidth, this.viewHeight));
         this.backgroud_1.getComponent(UITransform).setContentSize(new Size(this.viewWidth, this.viewHeight));
         this.backgroud_2.setPosition(0, 0);
