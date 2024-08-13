@@ -1,4 +1,4 @@
-import { _decorator, Component, EventTouch, ImageAsset, Input, log, NodeEventType, resources, sp, Sprite, SpriteFrame, Texture2D, UITransform, Vec3, view } from 'cc';
+import { _decorator, Component, EventKeyboard, EventTouch, input, Input, instantiate, KeyCode, log, Node, Prefab, resources, Sprite, SpriteFrame, UI, UITransform, Vec3, view } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Me')
@@ -9,38 +9,88 @@ export class Me extends Component {
 
     readonly loadMeInterval = 0.5;
 
-    private touchDown: boolean;
+    touchDown: boolean;
 
-    private viewHeight: number = view.getVisibleSize().height;
+    viewHeight: number = view.getVisibleSize().height;
 
-    private viewWidth: number = view.getVisibleSize().width;
+    viewWidth: number = view.getVisibleSize().width;
 
-    private currMe = 1;
+    currMeType = 1;
 
-    private loadMeWait: number = 0;
+    loadMeWait: number = 0;
+
+    meHeight: number;
+
+    meWidth: number;
+
+    @property({ type: Prefab })
+    bulletPrefab: Prefab;
+
+    bullets: Array<Node> = new Array<Node>();
+
+    bulletSpeed: number = 100;
+
+    fireCD: boolean = false;
+
+    fireCDInterval: number = 1;
+
+    fireTimer: number = 0;
+
+    initProperties() {
+        this.meHeight = this.node.getComponent(UITransform).contentSize.height;
+        this.meWidth = this.node.getComponent(UITransform).contentSize.width;
+    }
 
     start() {
+        this.initProperties()
         this.registeEvent()
     }
 
-    update(deltaTime: number) {
-        this.loadMeWait += deltaTime;
+    update(dt: number) {
+        this.loadMeWait += dt;
         if (this.loadMeWait >= this.loadMeInterval) {
-            if (this.currMe == 1) {
+            if (this.currMeType == 1) {
                 this.loadMe(this.me2);
-                this.currMe = 2;
+                this.currMeType = 2;
             } else {
                 this.loadMe(this.me1);
-                this.currMe = 1;
+                this.currMeType = 1;
             }
             this.loadMeWait = 0;
         }
+        if (!this.fireCD) {
+            this.fire();
+            this.fireCD = true;
+            setTimeout(() => this.fireCD = false, this.fireCDInterval * 1000);
+        }
+        for (let bullet of this.bullets) {
+            let position = bullet.getPosition();
+            bullet.setPosition(position.x, position.y + dt * this.bulletSpeed);
+        }
+        this.bullets = this.bullets.filter((bullet) => {
+            let destory: boolean = false;
+            if (bullet.getPosition().y >= this.viewHeight / 2) {
+                bullet.getParent().removeChild(bullet);
+                bullet.destroy();
+                destory = true;
+            }
+            return !destory;
+        })
     }
 
-    private loadMe(url: string) {
-        resources.load(url, (err, frame: SpriteFrame) => {
+    fire() {
+        let bullet: Node = instantiate(this.bulletPrefab)
+        let currPosition = this.node.getPosition()
+        this.node.getParent().addChild(bullet)
+        bullet.setPosition(currPosition.x, currPosition.y + this.meHeight / 2)
+        this.bullets.push(bullet)
+    }
+
+    loadMe(path: string) {
+        resources.load(path, (err, frame: SpriteFrame) => {
             if (err) {
                 log("load me failed.%s", err)
+                return;
             }
             this.node.getComponent(Sprite).spriteFrame = frame;
         })

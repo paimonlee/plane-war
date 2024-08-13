@@ -4,13 +4,14 @@ const { ccclass, property } = _decorator;
 @ccclass('Game')
 export class Game extends Component {
     @property({ type: Node })
-    backgroud_1: Node;
+    backgroud1: Node;
 
     @property({ type: Node })
-    backgroud_2: Node;
+    backgroud2: Node;
 
-    private viewHeight: number;
-    private viewWidth: number;
+    viewHeight: number;
+
+    viewWidth: number;
 
     moveSpeed: number = 100;
 
@@ -22,19 +23,19 @@ export class Game extends Component {
         this.viewHeight = view.getVisibleSize().height;
         this.viewWidth = view.getVisibleSize().width;
 
-        this.backgroud_2.getComponent(UITransform).setContentSize(new Size(this.viewWidth, this.viewHeight));
-        this.backgroud_1.getComponent(UITransform).setContentSize(new Size(this.viewWidth, this.viewHeight));
-        this.backgroud_2.setPosition(0, 0);
-        this.backgroud_1.setPosition(0, this.backgroud_2.position.y + this.viewHeight);
+        this.backgroud2.getComponent(UITransform).setContentSize(new Size(this.viewWidth, this.viewHeight));
+        this.backgroud1.getComponent(UITransform).setContentSize(new Size(this.viewWidth, this.viewHeight));
+        this.backgroud2.setPosition(0, 0);
+        this.backgroud1.setPosition(0, this.backgroud2.position.y + this.viewHeight);
     }
 
     update(deltaTime: number) {
-        this.backgroud_1.setPosition(this.backgroud_1.position.x, this.backgroud_1.position.y - this.moveSpeed * deltaTime);
-        this.backgroud_2.setPosition(this.backgroud_2.position.x, this.backgroud_2.position.y - this.moveSpeed * deltaTime);
-        if (this.backgroud_1.position.y < -this.viewHeight) {
-            this.backgroud_1.setPosition(0, this.backgroud_2.position.y + this.viewHeight);
-        } else if (this.backgroud_2.position.y < -this.viewHeight) {
-            this.backgroud_2.setPosition(0, this.backgroud_1.position.y + this.viewHeight);
+        this.backgroud1.setPosition(this.backgroud1.position.x, this.backgroud1.position.y - this.moveSpeed * deltaTime);
+        this.backgroud2.setPosition(this.backgroud2.position.x, this.backgroud2.position.y - this.moveSpeed * deltaTime);
+        if (this.backgroud1.position.y < -this.viewHeight) {
+            this.backgroud1.setPosition(0, this.backgroud2.position.y + this.viewHeight);
+        } else if (this.backgroud2.position.y < -this.viewHeight) {
+            this.backgroud2.setPosition(0, this.backgroud1.position.y + this.viewHeight);
         }
     }
 }
