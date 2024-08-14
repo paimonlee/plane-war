@@ -1,4 +1,6 @@
-import { _decorator, Component, EventMouse, log, Node, NodeEventType, Size, UITransform, Vec3, view } from 'cc';
+import { _decorator, Component, EventMouse, instantiate, log, Node, NodeEventType, Prefab, Size, UITransform, Vec3, view } from 'cc';
+import { Enemy } from './Enemy';
+import { Me } from './Me';
 const { ccclass, property } = _decorator;
 
 @ccclass('Game')
@@ -9,6 +11,12 @@ export class Game extends Component {
     @property({ type: Node })
     backgroud2: Node;
 
+    @property({ type: Prefab })
+    mePrefab: Prefab;
+
+    @property({ type: Prefab })
+    enemyPrefab: Prefab;
+
     viewHeight: number;
 
     viewWidth: number;
@@ -17,6 +25,12 @@ export class Game extends Component {
 
     start() {
         this.init()
+        let me = instantiate(this.mePrefab);
+        let enemy = instantiate(this.enemyPrefab);
+        this.node.addChild(me)
+        this.node.addChild(enemy)
+        me.getComponent(Me).init()
+        enemy.getComponent(Enemy).init(Math.round(Math.random() * 2))
     }
 
     init() {

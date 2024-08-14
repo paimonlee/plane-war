@@ -1,4 +1,5 @@
-import { _decorator, Component, EventKeyboard, EventTouch, input, Input, instantiate, KeyCode, log, Node, Prefab, resources, Sprite, SpriteFrame, UI, UITransform, Vec3, view } from 'cc';
+import { _decorator, Component, EventTouch, Input, instantiate, log, Node, Prefab, resources, Sprite, SpriteFrame, UITransform, Vec3, view } from 'cc';
+import { Bullet } from './Bullet';
 const { ccclass, property } = _decorator;
 
 @ccclass('Me')
@@ -26,8 +27,6 @@ export class Me extends Component {
     @property({ type: Prefab })
     bulletPrefab: Prefab;
 
-    bullets: Array<Node> = new Array<Node>();
-
     bulletSpeed: number = 100;
 
     fireCD: boolean = false;
@@ -36,9 +35,15 @@ export class Me extends Component {
 
     fireTimer: number = 0;
 
+    init() {
+        this.initProperties()
+    }
+
     initProperties() {
         this.meHeight = this.node.getComponent(UITransform).contentSize.height;
         this.meWidth = this.node.getComponent(UITransform).contentSize.width;
+        this.node.setPosition(0, -this.viewHeight / 2 + this.meHeight)
+        this.loadMe(this.me2);
     }
 
     start() {
@@ -63,36 +68,22 @@ export class Me extends Component {
             this.fireCD = true;
             setTimeout(() => this.fireCD = false, this.fireCDInterval * 1000);
         }
-        for (let bullet of this.bullets) {
-            let position = bullet.getPosition();
-            bullet.setPosition(position.x, position.y + dt * this.bulletSpeed);
-        }
-        this.bullets = this.bullets.filter((bullet) => {
-            let destory: boolean = false;
-            if (bullet.getPosition().y >= this.viewHeight / 2) {
-                bullet.getParent().removeChild(bullet);
-                bullet.destroy();
-                destory = true;
-            }
-            return !destory;
-        })
     }
 
     fire() {
-        let bullet: Node = instantiate(this.bulletPrefab)
+        let bulletNode: Node = instantiate(this.bulletPrefab)
+        let bulletComp = bulletNode.getComponent(Bullet)
+        this.node.getParent().addChild(bulletNode)
+        bulletComp.initProperties(Math.round(Math.random()), this.bulletSpeed)
         let currPosition = this.node.getPosition()
-        this.node.getParent().addChild(bullet)
-        bullet.setPosition(currPosition.x, currPosition.y + this.meHeight / 2)
-        this.bullets.push(bullet)
+        bulletNode.setPosition(currPosition.x, currPosition.y + this.meHeight / 2)
     }
 
     loadMe(path: string) {
         resources.load(path, (err, frame: SpriteFrame) => {
-            if (err) {
-                log("load me failed.%s", err)
-                return;
+            if (!err) {
+                this.node.getComponent(Sprite).spriteFrame = frame;
             }
-            this.node.getComponent(Sprite).spriteFrame = frame;
         })
     }
 

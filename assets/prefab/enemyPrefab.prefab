@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "bullBulletPrefab",
+    "_name": "enemyPrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bullBulletPrefab",
+    "_name": "enemyPrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -25,15 +25,18 @@
       },
       {
         "__id__": 4
+      },
+      {
+        "__id__": 6
       }
     ],
     "_prefab": {
-      "__id__": 6
+      "__id__": 8
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 30.667,
-      "y": 38.975,
+      "x": -41.788,
+      "y": 613.57,
       "z": 0
     },
     "_lrot": {
@@ -73,8 +76,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 5,
-      "height": 11
+      "width": 51,
+      "height": 38
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -85,7 +88,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "f7tgvZoBNLJY1Pq6K1CFjO"
+    "fileId": "97HoT8NzdH06Qqrqh4JP2P"
   },
   {
     "__type__": "cc.Sprite",
@@ -110,7 +113,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "d65b6138-0cca-419b-8872-3ae2ba16733b@f9941",
+      "__uuid__": "d76a0f8c-619b-46ce-a9f1-dbf14e187502@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -130,7 +133,25 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "b16NnhFypOApIqt6KqjXRl"
+    "fileId": "06TzogPhZFs5f45C+euEK+"
+  },
+  {
+    "__type__": "7c3fa9sPYBHLaBedZDBX8Jm",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 7
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "acFgljc8dNorAAGharYYVA"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -140,7 +161,8 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "37JXOBkUlDkaTAq3BN4Xyy",
+    "fileId": "4fvGH4JsxNPbGHGblEWxzp",
+    "instance": null,
     "targetOverrides": null
   }
 ]
