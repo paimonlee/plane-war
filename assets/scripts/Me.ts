@@ -35,6 +35,8 @@ export class Me extends Component {
 
     fireTimer: number = 0;
 
+    private readonly bulletType: number = 0;
+
     init() {
         this.initProperties()
     }
@@ -74,7 +76,7 @@ export class Me extends Component {
         let bulletNode: Node = instantiate(this.bulletPrefab)
         let bulletComp = bulletNode.getComponent(Bullet)
         this.node.getParent().addChild(bulletNode)
-        bulletComp.initProperties(Math.round(Math.random()), this.bulletSpeed)
+        bulletComp.initProperties(this.bulletType, this.bulletSpeed)
         let currPosition = this.node.getPosition()
         bulletNode.setPosition(currPosition.x, currPosition.y + this.meHeight / 2)
     }

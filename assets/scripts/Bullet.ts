@@ -1,4 +1,4 @@
-import { _decorator, Component, log, resources, Sprite, SpriteFrame, view } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, IPhysics2DContact, log, resources, RigidBody2D, Sprite, SpriteFrame, view } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Bullet')
@@ -36,6 +36,19 @@ export class Bullet extends Component {
             });
         }
         this.speed = speed;
+        let collider2D = this.node.getComponent(Collider2D)
+        collider2D.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this)
+    }
+
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+        if (otherCollider.tag == 1) {
+            log("击中敌机")
+            // this.node.getParent().removeChild(this.node);
+            setTimeout(() => {
+                this.node.parent.removeChild(this.node)
+                this.node.destroy();
+            }, 1);
+        }
     }
 }
 
