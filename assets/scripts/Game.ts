@@ -1,23 +1,22 @@
 import { _decorator, Component, instantiate, Prefab } from 'cc';
 import { Enemy } from './Enemy';
-import { Me } from './Me';
 const { ccclass, property } = _decorator;
 
 @ccclass('Game')
 export class Game extends Component {
     @property({ type: Prefab })
-    enemyPrefab: Prefab;
+    private enemyPre: Prefab;
 
-    moveSpeed: number = 100;
+    private refreshEnemyInterval: number = 5;
 
     start() {
-        let enemy = instantiate(this.enemyPrefab);
-        this.node.addChild(enemy)
-        enemy.getComponent(Enemy).init(Math.round(Math.random() * 2))
+        this.schedule(() => { this.refreshEnemy() }, this.refreshEnemyInterval, Number.MAX_VALUE, 1)
     }
 
-    update(deltaTime: number) {
-
+    refreshEnemy() {
+        let enemy = instantiate(this.enemyPre);
+        enemy.setParent(this.node)
+        enemy.getComponent(Enemy).init()
     }
 }
 

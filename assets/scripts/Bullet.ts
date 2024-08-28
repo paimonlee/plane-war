@@ -42,10 +42,8 @@ export class Bullet extends Component {
 
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         if (otherCollider.tag == 1) {
-            log("击中敌机")
-            // this.node.getParent().removeChild(this.node);
             setTimeout(() => {
-                this.node.parent.removeChild(this.node)
+                this.node.removeFromParent();
                 this.node.destroy();
             }, 1);
         }
